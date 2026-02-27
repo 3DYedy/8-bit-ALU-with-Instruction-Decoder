@@ -61,7 +61,7 @@ $$MSB(in_0) = LSB(in_0) = MSB(in_1) = LSB(in_1) \implies Result = 1$$
 The design was fully validated using **Xilinx Vivado** with a comprehensive stress-test testbench. 
 
 ### Waveform Analysis
-<img width="1295" height="310" alt="image" src="https://github.com/user-attachments/assets/e4aa78fa-f729-43a0-bbb3-d0f13696a8c6" />
+<img width="1118" height="371" alt="image" src="https://github.com/user-attachments/assets/e9cf9174-ca75-4452-8ca6-6fc903dbc54f" />
 
 **Key Verification Milestones:**
 * **Overflow Verification:** Confirmed at **20ns** during a 200 + 150 addition (Result: 94 with `overflow_flag` High).
