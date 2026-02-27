@@ -32,7 +32,15 @@ The operation to be executed is determined by specific bits within a 16-bit inst
 
 ---
 
-## 4. Supported Operations
+## 4. Reset & Clock Logic (DFT Compliance)
+The design integrates specific features required for reliable hardware testing and operation:
+
+* **System Clock (`clk`):** Synchronizes all internal operations, providing a 1-cycle latency between instruction input and result output.
+* **Asynchronous Reset (`rst_n`):** An active-low reset that forces all outputs and internal registers to a known state ($00h$), ensuring predictability upon power-up.
+
+---
+  
+## 5. Supported Operations
 
 ### Arithmetic & Shift Units
 * **ADD / SUB:** Standard 8-bit arithmetic.
@@ -49,7 +57,7 @@ $$MSB(in_0) = LSB(in_0) = MSB(in_1) = LSB(in_1) \implies Result = 1$$
 
 ---
 
-## 5. Verification & Simulation Results
+## 6. Verification & Simulation Results
 The design was fully validated using **Xilinx Vivado** with a comprehensive stress-test testbench. 
 
 ### Waveform Analysis
@@ -59,10 +67,3 @@ The design was fully validated using **Xilinx Vivado** with a comprehensive stre
 * **Overflow Verification:** Confirmed at **20ns** during a 200 + 150 addition (Result: 94 with `overflow_flag` High).
 * **Zero Flag Verification:** Confirmed at **30ns** (Bitwise AND of AA and 55) and **50ns** (Subtraction of 42 - 42).
 * **Routing Accuracy:** Successfully validated data routing across all four output ports (`out0`-`out3`) based on instruction bits.
-
----
-**Design Characteristics:**
-* 8-bit Datapath.
-* 16-bit Instruction Word.
-* Fully Synchronous Behavioral Logic.
-* Validated via Waveform Analysis in Vivado.
