@@ -1,6 +1,8 @@
 `timescale 1ns / 1ps
 
 module ALU(
+    input  logic clk, 
+    input  logic rst,
     input  logic [15:0] instruction,
     input  logic [7:0] data0, data1,
     output logic [7:0] out0, out1, out2, out3,
@@ -10,6 +12,7 @@ module ALU(
     logic [8:0] sum_full; 
 
     logic special_val;
+    
     assign special_val = (data0[7] == data0[0]) && (data1[7] == data1[0]) && (data0[7] == data1[7]);
 
     assign sum_full = data0 + data1;
@@ -52,4 +55,24 @@ module ALU(
             2'b11:out3 = final_res;
         endcase
     end
+    
+    always_ff @(posedge clk or negedge rst) begin
+        if (!rst) begin
+            {out0, out1, out2, out3} <= 32'h0;
+            overflow_flag <= 1'b0;
+            zero_flag     <= 1'b0;
+        end else begin
+            overflow_flag <= (instruction[13:10] == 4'b0010) && sum_full[8];
+            zero_flag     <= (final_res == 8'h00);
+            
+            {out0, out1, out2, out3} <= 32'h0;
+            case(instruction[15:14])
+                2'b00: out0 <= final_res;
+                2'b01: out1 <= final_res;
+                2'b10: out2 <= final_res;
+                2'b11: out3 <= final_res;
+            endcase
+        end
+    end
+    
 endmodule
